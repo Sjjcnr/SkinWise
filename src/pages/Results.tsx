@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Loader2, Leaf, ExternalLink, AlertTriangle, ArrowLeft, RefreshCw, Heart, History } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { ShareButton } from '@/components/ShareButton';
 import { ProductFeedback } from '@/components/ProductFeedback';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { BrandLogo } from '@/components/BrandLogo';
@@ -250,10 +249,6 @@ export default function Results() {
           <Button variant="outline" asChild className="rounded-full bg-white/50 backdrop-blur-sm">
             <Link to="/quiz"><ArrowLeft className="w-4 h-4 mr-2" /> Take New Quiz</Link>
           </Button>
-          <ShareButton 
-            title="My Skincare Routine" 
-            text="Check out my personalized skincare routine from SkinWise!" 
-          />
           <Button variant="outline" asChild className="rounded-full bg-white/50 backdrop-blur-sm">
             <Link to="/favorites"><Heart className="w-4 h-4 mr-2" /> View Favorites</Link>
           </Button>
