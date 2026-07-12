@@ -1,0 +1,3 @@
+# Supabase keepalive heartbeat log
+# Each line is appended by the supabase-keepalive GitHub Actions workflow.
+# Format: ISO-8601 timestamp | result (ok / FAIL)
