@@ -159,15 +159,28 @@ export default function History() {
         for (const item of itemsToRestore) {
           const { recommendation, ...assessmentData } = item;
           const { error: aError } = await supabase.from('skin_assessments').insert(assessmentData);
-          if (aError) throw aError;
+          if (aError) {
+            if (aError.code === '23505') {
+              console.log('Assessment already exists, skipping insert.');
+            } else {
+              throw aError;
+            }
+          }
           if (recommendation) {
-            await supabase.from('recommendations').insert({
+            const { error: rError } = await supabase.from('recommendations').insert({
               id: recommendation.id,
               assessment_id: item.id,
               user_id: item.user_id,
               ai_summary: recommendation.ai_summary,
               products: recommendation.products,
             });
+            if (rError) {
+              if (rError.code === '23505') {
+                console.log('Recommendation already exists, skipping insert.');
+              } else {
+                throw rError;
+              }
+            }
           }
         }
         isCommittedRef.current = false;
@@ -202,20 +215,15 @@ export default function History() {
       if (pendingDeleteTimer.current) {
         clearTimeout(pendingDeleteTimer.current);
         pendingDeleteTimer.current = null;
-        if (pendingDeleteRef.current && !isCommittedRef.current) {
-          void commitDelete(pendingDeleteRef.current.items);
-        }
       }
+      dismiss(); // Dismiss active toasts when leaving the history page so they don't linger
     };
-  }, [commitDelete]);
+  }, [dismiss]);
 
   const deleteAssessment = (assessmentId: string) => {
     if (pendingDeleteTimer.current) {
       clearTimeout(pendingDeleteTimer.current);
       pendingDeleteTimer.current = null;
-      if (pendingDeleteRef.current && !isCommittedRef.current) {
-        void commitDelete(pendingDeleteRef.current.items);
-      }
     }
 
     const deleted = assessments.find((a) => a.id === assessmentId);
@@ -224,10 +232,13 @@ export default function History() {
     setAssessments((prev) => prev.filter((a) => a.id !== assessmentId));
     if (expandedId === assessmentId) setExpandedId(null);
 
-    isCommittedRef.current = false;
+    isCommittedRef.current = true;
     const pending = { items: [deleted] };
     pendingDeleteRef.current = pending;
     setPendingDelete({ items: [deleted], type: 'single' });
+
+    // Execute deletion from the database immediately
+    void commitDelete([deleted]);
 
     toast({
       title: 'Assessment deleted',
@@ -241,13 +252,10 @@ export default function History() {
     });
 
     pendingDeleteTimer.current = setTimeout(() => {
-      if (pendingDeleteRef.current && !isCommittedRef.current) {
-        void commitDelete(pending.items);
-        pendingDeleteRef.current = null;
-        pendingDeleteTimer.current = null;
-        if (isMounted.current) {
-          setPendingDelete(null);
-        }
+      pendingDeleteRef.current = null;
+      pendingDeleteTimer.current = null;
+      if (isMounted.current) {
+        setPendingDelete(null);
       }
     }, UNDO_DELAY * 1000);
   };
@@ -256,19 +264,19 @@ export default function History() {
     if (pendingDeleteTimer.current) {
       clearTimeout(pendingDeleteTimer.current);
       pendingDeleteTimer.current = null;
-      if (pendingDeleteRef.current && !isCommittedRef.current) {
-        void commitDelete(pendingDeleteRef.current.items);
-      }
     }
 
     const allItems = [...assessments];
     setAssessments([]);
     setExpandedId(null);
 
-    isCommittedRef.current = false;
+    isCommittedRef.current = true;
     const pending = { items: allItems };
     pendingDeleteRef.current = pending;
     setPendingDelete({ items: allItems, type: 'all' });
+
+    // Execute deletion from the database immediately
+    void commitDelete(allItems);
 
     toast({
       title: 'All assessments deleted',
@@ -282,13 +290,10 @@ export default function History() {
     });
 
     pendingDeleteTimer.current = setTimeout(() => {
-      if (pendingDeleteRef.current && !isCommittedRef.current) {
-        void commitDelete(pending.items);
-        pendingDeleteRef.current = null;
-        pendingDeleteTimer.current = null;
-        if (isMounted.current) {
-          setPendingDelete(null);
-        }
+      pendingDeleteRef.current = null;
+      pendingDeleteTimer.current = null;
+      if (isMounted.current) {
+        setPendingDelete(null);
       }
     }, UNDO_DELAY * 1000);
   };
