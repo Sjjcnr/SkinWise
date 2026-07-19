@@ -132,14 +132,13 @@ export default function History() {
   const commitDelete = useCallback(async (items: AssessmentWithRecommendation[]) => {
     if (!items.length) return;
     try {
-      // Must delete recommendations first to avoid foreign key errors, or use cascading deletes.
       for (const item of items) {
         await supabase.from('recommendations').delete().eq('assessment_id', item.id);
         await supabase.from('skin_assessments').delete().eq('id', item.id);
       }
       isCommittedRef.current = true;
     } catch (err) {
-      console.error('Delete commit error:', err);
+      console.error('Delete commit exception:', err);
     }
   }, []);
 
