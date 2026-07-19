@@ -72,7 +72,7 @@ export default function History() {
   const pendingDeleteRef = useRef<{ items: AssessmentWithRecommendation[] } | null>(null);
   const isCommittedRef = useRef(false);
   const isMounted = useRef(true);
-  const { toast } = useToast();
+  const { toast, dismiss } = useToast();
 
   useEffect(() => {
     if (!authLoading && !user) {
