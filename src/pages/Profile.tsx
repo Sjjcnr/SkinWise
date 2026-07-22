@@ -81,11 +81,12 @@ export default function Profile() {
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({
+        .upsert({
+          user_id: user!.id,
+          email: user!.email || null,
           full_name: fullName.trim() || null,
           updated_at: new Date().toISOString(),
-        })
-        .eq('user_id', user!.id);
+        }, { onConflict: 'user_id' });
 
       if (error) throw error;
 
