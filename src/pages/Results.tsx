@@ -79,12 +79,14 @@ export default function Results() {
       setProducts(data.products || []);
       setAiSummary(data.summary || '');
 
-      const { data: savedRec } = await supabase.from('recommendations').insert({
+      const { data: savedRec, error: saveError } = await supabase.from('recommendations').insert({
         assessment_id: assessmentId,
         user_id: user!.id,
         products: data.products,
         ai_summary: data.summary,
       }).select('id').single();
+
+      if (saveError) throw saveError;
 
       if (savedRec) {
         setRecommendationId(savedRec.id);

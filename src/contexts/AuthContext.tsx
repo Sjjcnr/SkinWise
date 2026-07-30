@@ -65,7 +65,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    } finally {
+      // Force clear any supabase auth tokens from localStorage
+      for (const key of Object.keys(localStorage)) {
+        if (key.includes('supabase') || key.includes('-auth-token')) {
+          localStorage.removeItem(key);
+        }
+      }
+      setUser(null);
+      setSession(null);
+    }
   };
 
   return (

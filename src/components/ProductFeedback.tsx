@@ -67,7 +67,7 @@ export function ProductFeedback({ recommendationId, productName, userId }: Produ
     setIsLoading(true);
     try {
       if (existingFeedback) {
-        await supabase
+        const { error } = await supabase
           .from('product_feedback')
           .update({
             rating,
@@ -77,8 +77,9 @@ export function ProductFeedback({ recommendationId, productName, userId }: Produ
           .eq('recommendation_id', recommendationId)
           .eq('product_name', productName)
           .eq('user_id', userId);
+        if (error) throw error;
       } else {
-        await supabase.from('product_feedback').insert({
+        const { error } = await supabase.from('product_feedback').insert({
           user_id: userId,
           recommendation_id: recommendationId,
           product_name: productName,
@@ -86,6 +87,7 @@ export function ProductFeedback({ recommendationId, productName, userId }: Produ
           feedback: feedback.trim() || null,
           tried_product: triedProduct,
         });
+        if (error) throw error;
       }
 
       setExistingFeedback({ rating, feedback, tried_product: triedProduct });
@@ -93,7 +95,7 @@ export function ProductFeedback({ recommendationId, productName, userId }: Produ
       setOpen(false);
     } catch (error) {
       console.error('Error saving feedback:', error);
-      toast({ title: 'Failed to save feedback', variant: 'destructive' });
+      toast({ title: 'Failed to save feedback', description: error instanceof Error ? error.message : 'Please try again', variant: 'destructive' });
     } finally {
       setIsLoading(false);
     }

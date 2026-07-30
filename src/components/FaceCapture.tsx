@@ -472,7 +472,6 @@ export default function FaceCapture({ onValidCapture, onCancel }: FaceCapturePro
           ref={fileInputRef}
           type="file"
           accept="image/*"
-          capture="user"
           className="hidden"
           onChange={handleFileUpload}
           aria-label="Upload a photo for skin analysis"
