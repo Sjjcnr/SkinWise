@@ -205,6 +205,6 @@ This project is licensed under the **ISC License**.
 
 <div align="center">
 
-**Built with ❤️ using React, TypeScript, Supabase, Tailwind CSS, and shadcn/ui**
+**Built with ❤️ using React, TypeScript, Supabase, and Tailwind CSS**
 
 </div>
