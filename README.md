@@ -5,7 +5,7 @@
 ### Intelligent Skincare Recommendation Platform
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES2020+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
 [![shadcn/ui](https://img.shields.io/badge/shadcn/ui-Components-000000?style=for-the-badge&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
@@ -72,7 +72,7 @@ An intelligent skin assessment tool that curates personalized product recommenda
 | Technology | Purpose |
 |---|---|
 | **React 18/19** | UI library with modern hooks |
-| **TypeScript** | Type-safe development |
+| **JavaScript (ES2020+)** | Modern client logic & component structure |
 | **Vite** | Lightning-fast dev server & build tool |
 | **React Router DOM** | Client-side routing & navigation |
 | **Tailwind CSS** | Utility-first CSS framework |
@@ -148,33 +148,33 @@ npm run preview
 SkinWise/
 ├── index.html                    # Vite entry HTML
 ├── package.json                  # Dependencies & scripts
-├── vite.config.ts                # Vite configuration
-├── tailwind.config.ts            # Tailwind CSS theme & plugins
-├── tsconfig.json                 # TypeScript configuration
+├── vite.config.js                # Vite configuration
+├── tailwind.config.js            # Tailwind CSS theme & plugins
+├── jsconfig.json                 # JavaScript configuration & path aliases
 ├── components.json               # shadcn/ui configuration
 │
 ├── public/
 │   └── ...
 │
 ├── src/
-│   ├── main.tsx                  # React entry point
-│   ├── App.tsx                   # Root component with routing
+│   ├── main.jsx                  # React entry point
+│   ├── App.jsx                   # Root component with routing
 │   ├── index.css                 # Global styles
 │   │
-│   ├── types/                    # TypeScript interfaces
+│   ├── types/                    # Domain constants & models
 │   ├── contexts/                 # React Contexts (e.g. AuthContext)
 │   ├── hooks/                    # Custom hooks (e.g. useAssessment)
 │   ├── integrations/             # Third-party integrations (Supabase)
 │   ├── lib/                      # Utility functions
 │   │
 │   ├── pages/                    # Route components
-│   │   ├── Index.tsx             # Landing page
-│   │   ├── Auth.tsx              # Authentication
-│   │   ├── Quiz.tsx              # Skin assessment wizard
-│   │   ├── Results.tsx           # Recommendations display
-│   │   ├── History.tsx           # Past assessments
-│   │   ├── Favorites.tsx         # Saved products
-│   │   └── Profile.tsx           # User settings
+│   │   ├── Index.jsx             # Landing page
+│   │   ├── Auth.jsx              # Authentication
+│   │   ├── Quiz.jsx              # Skin assessment wizard
+│   │   ├── Results.jsx           # Recommendations display
+│   │   ├── History.jsx           # Past assessments
+│   │   ├── Favorites.jsx         # Saved products
+│   │   └── Profile.jsx           # User settings
 │   │
 │   └── components/               # Reusable UI components
 │       ├── quiz/                 # Quiz steps
@@ -205,6 +205,6 @@ This project is licensed under the **ISC License**.
 
 <div align="center">
 
-**Built with ❤️ using React, TypeScript, Supabase, and Tailwind CSS**
+**Built with ❤️ using React, JavaScript, Supabase, and Tailwind CSS**
 
 </div>
